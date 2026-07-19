@@ -4,6 +4,7 @@ import { C, LOGO } from "../data";
 import { GoldDivider } from "../components/PortalComponents";
 import { DashboardSkeleton } from "../components/Skeleton";
 import { BottomNav } from "../components/BottomNav";
+import { isOverdue } from "../lib/deadlines";
 import {
   flattenFiles,
   fetchAllCompletions,
@@ -12,8 +13,9 @@ import {
 } from "../lib/googleData";
 
 const STATUS_COLOR: Record<string, string> = {
-  Belum: "#B3441C",
+  Belum: "#9AA294",
   "Sedang Berjalan": "#C79A3B",
+  Telat: "#B3271C",
   Lengkap: "#1C4A33",
 };
 
@@ -49,16 +51,24 @@ export default function DashboardPage() {
     let lengkap = 0,
       berjalan = 0,
       belum = 0,
+      telat = 0,
       error = 0;
     for (const f of sectionFiles) {
       const r = results.get(f.id);
       if (!r) continue;
-      if (r.error) error++;
-      else if (r.status === "Lengkap") lengkap++;
-      else if (r.status === "Sedang Berjalan") berjalan++;
-      else belum++;
+      if (r.error) {
+        error++;
+      } else if (r.status === "Lengkap") {
+        lengkap++;
+      } else if (isOverdue(f.sectionNo)) {
+        telat++;
+      } else if (r.status === "Sedang Berjalan") {
+        berjalan++;
+      } else {
+        belum++;
+      }
     }
-    return { lengkap, berjalan, belum, error, total: sectionFiles.length };
+    return { lengkap, berjalan, belum, telat, error, total: sectionFiles.length };
   }
 
   const overall = sectionStats(files);
@@ -128,7 +138,8 @@ export default function DashboardPage() {
             </div>
 
             <p className="text-center text-xs mt-6" style={{ color: C.muted }}>
-              Status dihitung otomatis berdasarkan rasio sel terisi — perkiraan, bukan penilaian isi.
+              Status dihitung otomatis berdasarkan rasio sel terisi & jadwal per section — perkiraan, bukan penilaian isi.
+              "Telat" berarti lewat jadwal dan belum lengkap saat ini, bukan bukti belum di-update pada periode tersebut.
               Untuk detail, buka{" "}
               <Link to="/sheet" className="underline" style={{ color: C.green }}>
                 halaman Detail Sheet
@@ -144,12 +155,13 @@ export default function DashboardPage() {
   );
 }
 
-function StatusBar({ stats }: { stats: { lengkap: number; berjalan: number; belum: number; error: number; total: number } }) {
-  const { lengkap, berjalan, belum, error, total } = stats;
+function StatusBar({ stats }: { stats: { lengkap: number; berjalan: number; belum: number; telat: number; error: number; total: number } }) {
+  const { lengkap, berjalan, belum, telat, error, total } = stats;
   const denom = total || 1;
   return (
     <div className="w-full h-2.5 rounded-full overflow-hidden flex" style={{ background: C.leaf }}>
       <div style={{ width: `${(lengkap / denom) * 100}%`, background: STATUS_COLOR["Lengkap"] }} />
+      <div style={{ width: `${(telat / denom) * 100}%`, background: STATUS_COLOR["Telat"] }} />
       <div style={{ width: `${(berjalan / denom) * 100}%`, background: STATUS_COLOR["Sedang Berjalan"] }} />
       <div style={{ width: `${(belum / denom) * 100}%`, background: STATUS_COLOR["Belum"] }} />
       <div style={{ width: `${(error / denom) * 100}%`, background: "#999" }} />
@@ -157,9 +169,10 @@ function StatusBar({ stats }: { stats: { lengkap: number; berjalan: number; belu
   );
 }
 
-function Legend({ stats }: { stats: { lengkap: number; berjalan: number; belum: number; error: number } }) {
+function Legend({ stats }: { stats: { lengkap: number; berjalan: number; belum: number; telat: number; error: number } }) {
   const items = [
     { label: "Lengkap", value: stats.lengkap, color: STATUS_COLOR["Lengkap"] },
+    { label: "Telat", value: stats.telat, color: STATUS_COLOR["Telat"] },
     { label: "Sedang Berjalan", value: stats.berjalan, color: STATUS_COLOR["Sedang Berjalan"] },
     { label: "Belum", value: stats.belum, color: STATUS_COLOR["Belum"] },
     ...(stats.error ? [{ label: "Gagal dimuat", value: stats.error, color: "#999" }] : []),
