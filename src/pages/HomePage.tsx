@@ -2,10 +2,11 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { C, LOGO, DATA } from "../data";
 import { GoldDivider } from "../components/PortalComponents";
+import { BottomNav } from "../components/BottomNav";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function HomePage() {
-  const { role, signOut, session } = useAuth();
+  const { role, session } = useAuth();
   const isManagement = role === "management";
   const displayName = session?.user?.email?.split("@")[0] || "";
 
@@ -35,12 +36,6 @@ export default function HomePage() {
           aria-hidden="true"
         />
         <div className="absolute inset-0" style={{ background: "rgba(20, 40, 30, 0.58)" }} aria-hidden="true" />
-
-        <div className="absolute top-4 right-4 sm:top-5 sm:right-6 text-xs z-10">
-          <button onClick={() => signOut()} className="underline text-white/90 hover:text-white">
-            Keluar
-          </button>
-        </div>
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-5 sm:px-8">
           <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(255,255,255,0.95)" }}>
@@ -75,7 +70,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-7 sm:py-10">
+      <div className="max-w-3xl mx-auto px-4 py-7 sm:py-10 pb-24">
         <p className="text-sm text-center max-w-md mx-auto" style={{ color: C.muted }}>
           Selamat datang{displayName ? `, ${displayName}` : ""}. Pilih menu di bawah untuk melanjutkan.
         </p>
@@ -142,6 +137,8 @@ export default function HomePage() {
           <p className="font-semibold" style={{ color: C.green }}>Kuttab Budi Ashari</p>
         </footer>
       </div>
+
+      <BottomNav />
     </div>
   );
 }
