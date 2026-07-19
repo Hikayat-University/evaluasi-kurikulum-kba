@@ -1,13 +1,11 @@
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
 import { C, LOGO, DATA, MAIN_FOLDER, SNAPSHOT_DATE, folderUrl } from "../data";
 import { GoldDivider, Section } from "../components/PortalComponents";
-import { useAuth } from "../contexts/AuthContext";
+import { BottomNav } from "../components/BottomNav";
 
 export default function DetailSheetPage() {
   const [query, setQuery] = useState("");
   const filter = query.trim().toLowerCase();
-  const { role, signOut } = useAuth();
 
   const totalFiles = useMemo(
     () =>
@@ -22,21 +20,7 @@ export default function DetailSheetPage() {
     <div className="min-h-screen" style={{ background: C.mist, color: C.ink }}>
       <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${C.green}, ${C.gold}, ${C.green})` }} />
 
-      <div className="max-w-3xl mx-auto px-4 py-7 sm:py-10">
-        {/* Header akun */}
-        <div className="flex items-center justify-end gap-3 text-xs mb-2" style={{ color: C.muted }}>
-          <Link to="/home" className="underline" style={{ color: C.green }}>
-            ← Home
-          </Link>
-          {role === "management" && (
-            <Link to="/dashboard" className="underline font-semibold" style={{ color: C.green }}>
-              Dashboard Overview
-            </Link>
-          )}
-          <button onClick={() => signOut()} className="underline">
-            Keluar
-          </button>
-        </div>
+      <div className="max-w-3xl mx-auto px-4 py-7 sm:py-10 pb-24">
 
         <header className="text-center">
           <img
@@ -97,6 +81,8 @@ export default function DetailSheetPage() {
           <p className="pt-1 font-semibold" style={{ color: C.green }}>Kuttab Budi Ashari</p>
         </footer>
       </div>
+
+      <BottomNav />
     </div>
   );
 }
