@@ -60,7 +60,7 @@ export default function DashboardPage() {
         error++;
       } else if (r.status === "Lengkap") {
         lengkap++;
-      } else if (isOverdue(f.sectionNo)) {
+      } else if (r.status === "Belum" && isOverdue(f.sectionNo)) {
         telat++;
       } else if (r.status === "Sedang Berjalan") {
         berjalan++;
@@ -119,10 +119,10 @@ export default function DashboardPage() {
                   Dokumen sudah terisi penuh.
                 </LegendExplain>
                 <LegendExplain color={STATUS_COLOR["Telat"]} title="Telat">
-                  Sudah lewat jadwal pengisian tapi masih belum lengkap — perlu ditindaklanjuti.
+                  Sudah lewat jadwal pengisian dan masih kosong sama sekali — perlu ditindaklanjuti.
                 </LegendExplain>
                 <LegendExplain color={STATUS_COLOR["Sedang Berjalan"]} title="Sedang Berjalan">
-                  Ada sebagian isian, jadwalnya belum lewat — masih wajar.
+                  Ada sebagian isian, terlepas dari jadwal — progresnya jalan.
                 </LegendExplain>
                 <LegendExplain color={STATUS_COLOR["Belum"]} title="Belum">
                   Masih kosong, tapi jadwalnya juga belum lewat — belum perlu dikhawatirkan.
