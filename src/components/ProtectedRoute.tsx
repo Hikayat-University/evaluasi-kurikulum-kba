@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { C } from "../data";
+import { PageLoadingSkeleton } from "./Skeleton";
 
 export function ProtectedRoute({
   children,
@@ -13,14 +13,7 @@ export function ProtectedRoute({
   const { session, role, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div
-        className="min-h-screen flex items-center justify-center text-sm"
-        style={{ background: C.mist, color: C.muted }}
-      >
-        Memuat…
-      </div>
-    );
+    return <PageLoadingSkeleton />;
   }
 
   if (!session) return <Navigate to="/login" replace />;
