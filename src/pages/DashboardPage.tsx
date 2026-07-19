@@ -99,9 +99,45 @@ export default function DashboardPage() {
 
         {!loading && (
           <>
-            {/* Ringkasan total */}
+            {/* Cara membaca dashboard */}
             <div
               className="mt-6 rounded-2xl p-4 sm:p-5"
+              style={{ background: C.leaf, border: `1px solid ${C.line}` }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <InfoIcon />
+                <span className="text-sm font-semibold" style={{ color: C.green }}>
+                  Cara membaca dashboard ini
+                </span>
+              </div>
+              <p className="text-xs leading-relaxed mb-3" style={{ color: C.ink }}>
+                Tiap bar warna-warni menunjukkan proporsi dokumen dalam satu section, dibagi
+                jadi 4 kategori:
+              </p>
+              <div className="space-y-2">
+                <LegendExplain color={STATUS_COLOR["Lengkap"]} title="Lengkap">
+                  Dokumen sudah terisi penuh.
+                </LegendExplain>
+                <LegendExplain color={STATUS_COLOR["Telat"]} title="Telat">
+                  Sudah lewat jadwal pengisian tapi masih belum lengkap — perlu ditindaklanjuti.
+                </LegendExplain>
+                <LegendExplain color={STATUS_COLOR["Sedang Berjalan"]} title="Sedang Berjalan">
+                  Ada sebagian isian, jadwalnya belum lewat — masih wajar.
+                </LegendExplain>
+                <LegendExplain color={STATUS_COLOR["Belum"]} title="Belum">
+                  Masih kosong, tapi jadwalnya juga belum lewat — belum perlu dikhawatirkan.
+                </LegendExplain>
+              </div>
+              <p className="text-[11px] leading-relaxed mt-3 pt-3" style={{ color: C.muted, borderTop: `1px solid ${C.line}` }}>
+                Angka di samping tiap warna (pada legend di bawah tiap section) = jumlah dokumen
+                pada kategori itu. "Telat" dihitung dari jadwal section, bukan bukti belum
+                di-update pada periode tersebut (sheet-nya berkelanjutan, bukan file per-periode).
+              </p>
+            </div>
+
+            {/* Ringkasan total */}
+            <div
+              className="mt-4 rounded-2xl p-4 sm:p-5"
               style={{ background: "#FFF", border: `1px solid ${C.line}` }}
             >
               <div className="flex items-center justify-between mb-3">
@@ -185,6 +221,28 @@ function Legend({ stats }: { stats: { lengkap: number; berjalan: number; belum: 
           {it.label}: {it.value}
         </span>
       ))}
+    </div>
+  );
+}
+
+function InfoIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" fill="none" stroke={C.green} strokeWidth="1.6" />
+      <path d="M12 11v5.5" stroke={C.green} strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="12" cy="7.8" r="1" fill={C.green} />
+    </svg>
+  );
+}
+
+function LegendExplain({ color, title, children }: { color: string; title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-2.5">
+      <span className="w-2.5 h-2.5 rounded-full mt-1 shrink-0" style={{ background: color }} />
+      <div>
+        <span className="text-xs font-semibold" style={{ color: C.ink }}>{title}</span>
+        <span className="text-xs" style={{ color: C.muted }}> — {children}</span>
+      </div>
     </div>
   );
 }
