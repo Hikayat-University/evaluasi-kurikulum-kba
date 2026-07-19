@@ -43,7 +43,9 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-5 sm:px-8">
-          <img src={LOGO} alt="Logo Kuttab Budi Ashari" className="w-20 sm:w-24 h-auto mb-4" style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }} />
+          <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(255,255,255,0.95)" }}>
+            <img src={LOGO} alt="Logo Kuttab Budi Ashari" className="w-11 sm:w-14 h-auto" style={{ mixBlendMode: "multiply" }} />
+          </div>
           <h1
             className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white max-w-xl"
             style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
