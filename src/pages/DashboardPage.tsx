@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { C, LOGO } from "../data";
 import { GoldDivider } from "../components/PortalComponents";
 import { DashboardSkeleton } from "../components/Skeleton";
-import { useAuth } from "../contexts/AuthContext";
+import { BottomNav } from "../components/BottomNav";
 import {
   flattenFiles,
   fetchAllCompletions,
@@ -18,7 +18,6 @@ const STATUS_COLOR: Record<string, string> = {
 };
 
 export default function DashboardPage() {
-  const { signOut } = useAuth();
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Map<string, CompletionResult>>(new Map());
   const files = useMemo(() => flattenFiles(), []);
@@ -68,18 +67,7 @@ export default function DashboardPage() {
     <div className="min-h-screen" style={{ background: C.mist, color: C.ink }}>
       <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${C.green}, ${C.gold}, ${C.green})` }} />
 
-      <div className="max-w-3xl mx-auto px-4 py-7 sm:py-10">
-        <div className="flex items-center justify-end gap-3 text-xs mb-2" style={{ color: C.muted }}>
-          <Link to="/home" className="underline" style={{ color: C.green }}>
-            ← Home
-          </Link>
-          <Link to="/sheet" className="underline font-semibold" style={{ color: C.green }}>
-            Detail Sheet
-          </Link>
-          <button onClick={() => signOut()} className="underline">
-            Keluar
-          </button>
-        </div>
+      <div className="max-w-3xl mx-auto px-4 py-7 sm:py-10 pb-24">
 
         <header className="text-center">
           <img src={LOGO} alt="Logo Kuttab Budi Ashari" className="mx-auto w-44 sm:w-52 h-auto" style={{ mixBlendMode: "multiply" }} />
@@ -150,6 +138,8 @@ export default function DashboardPage() {
           </>
         )}
       </div>
+
+      <BottomNav />
     </div>
   );
 }
