@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { C, LOGO } from "../data";
 import { GoldDivider } from "../components/PortalComponents";
+import { DashboardSkeleton } from "../components/Skeleton";
 import { useAuth } from "../contexts/AuthContext";
 import {
   flattenFiles,
@@ -96,11 +97,7 @@ export default function DashboardPage() {
           </p>
         </header>
 
-        {loading && (
-          <p className="text-center text-sm mt-8" style={{ color: C.muted }}>
-            Memuat data dari Google Sheets & Drive…
-          </p>
-        )}
+        {loading && <DashboardSkeleton />}
 
         {!loading && (
           <>
