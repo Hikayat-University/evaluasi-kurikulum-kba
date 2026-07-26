@@ -25,9 +25,9 @@ export const folderUrl = (id) => `https://drive.google.com/drive/folders/${id}`;
 // ————— Section 1: Instrumen Ilmu (acuan guru, upload lewat Google Drive langsung) —————
 // Folder ID masih placeholder kosong — isi setelah folder-folder ini dibuat di Drive.
 export const INSTRUMEN_FOLDERS = [
-  { key: "modul", name: "Modul Pembelajaran", folderId: "" },
-  { key: "target", name: "Target Pembelajaran", folderId: "" },
-  { key: "panduan", name: "Panduan Pengajaran", folderId: "" },
+  { key: "modul", name: "Modul Pembelajaran", folderId: "1CksAQzJrjpMnOhVY4i9_3zlsQPGJV2Al" },
+  { key: "target", name: "Target Pembelajaran", folderId: "1dHNhJNY-8N2FjjHS_JnkTWcajsTlShcB" },
+  { key: "panduan", name: "Panduan Pengajaran", folderId: "1PLEqcUn3H9EGwJJUkV5a5PlXMJpEzQQB" },
 ];
 
 // ————— Section 2: Rencana Pembelajaran Guru (RPB + Refleksi, guru checklist manual) —————
