@@ -33,38 +33,46 @@ export default function InstrumenPage() {
         </header>
 
         <main className="mt-6 space-y-3">
-          {INSTRUMEN_FOLDERS.map((f) => (
-            <div
-              key={f.key}
-              className="flex items-center justify-between gap-3 rounded-2xl p-4 sm:p-5"
-              style={{ background: "#FFF", border: `1px solid ${C.line}` }}
-            >
-              <div>
-                <div className="font-semibold" style={{ color: C.green }}>{f.name}</div>
-                <div className="text-xs mt-0.5" style={{ color: C.muted }}>
-                  {f.folderId ? "Folder PDF di Google Drive" : "Folder belum tersedia"}
+          {INSTRUMEN_FOLDERS.map((f) =>
+            f.folderId ? (
+              <a
+                key={f.key}
+                href={folderUrl(f.folderId)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between gap-3 rounded-2xl p-4 sm:p-5 transition-shadow hover:shadow-md"
+                style={{ background: "#FFF", border: `1px solid ${C.line}` }}
+              >
+                <div>
+                  <div className="font-semibold" style={{ color: C.green }}>{f.name}</div>
+                  <div className="text-xs mt-0.5" style={{ color: C.muted }}>Folder PDF di Google Drive</div>
                 </div>
-              </div>
-              {f.folderId ? (
-                <a
-                  href={folderUrl(f.folderId)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-semibold px-3.5 py-1.5 rounded-full whitespace-nowrap"
+                <span
+                  className="text-xs font-semibold px-3.5 py-1.5 rounded-full whitespace-nowrap shrink-0"
                   style={{ background: C.green, color: "#FFF" }}
                 >
-                  Buka folder
-                </a>
-              ) : (
+                  Buka folder →
+                </span>
+              </a>
+            ) : (
+              <div
+                key={f.key}
+                className="flex items-center justify-between gap-3 rounded-2xl p-4 sm:p-5"
+                style={{ background: "#FFF", border: `1px solid ${C.line}` }}
+              >
+                <div>
+                  <div className="font-semibold" style={{ color: C.green }}>{f.name}</div>
+                  <div className="text-xs mt-0.5" style={{ color: C.muted }}>Folder belum tersedia</div>
+                </div>
                 <span
-                  className="text-xs font-semibold px-3.5 py-1.5 rounded-full whitespace-nowrap"
+                  className="text-xs font-semibold px-3.5 py-1.5 rounded-full whitespace-nowrap shrink-0"
                   style={{ background: C.leaf, color: C.muted }}
                 >
                   Segera hadir
                 </span>
-              )}
-            </div>
-          ))}
+              </div>
+            )
+          )}
         </main>
       </div>
 
